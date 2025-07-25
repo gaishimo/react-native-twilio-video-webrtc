@@ -650,5 +650,39 @@ RCT_EXPORT_METHOD(disconnect) {
     [self sendEventCheckingListenerWithName:networkQualityLevelsChanged body:@{ @"participant": [participant toJSON], @"isLocalUser": [NSNumber numberWithBool:true], @"quality": [NSNumber numberWithInt:(int)networkQualityLevel]}];
 }
 
+// --- Torch control ---
+RCT_EXPORT_METHOD(enableTorch:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+  if (!self.camera || !self.camera.device.hasTorch) {
+    reject(@"UNAVAILABLE", @"Torch not available", nil);
+    return;
+  }
+  NSError *error = nil;
+  if ([self.camera.device lockForConfiguration:&error]) {
+    self.camera.device.torchMode = AVCaptureTorchModeOn;
+    [self.camera.device unlockForConfiguration];
+    resolve(@(YES));
+  } else {
+    reject(@"FAILED", error.localizedDescription, error);
+  }
+}
+
+RCT_EXPORT_METHOD(disableTorch:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+  if (!self.camera || !self.camera.device.hasTorch) {
+    reject(@"UNAVAILABLE", @"Torch not available", nil);
+    return;
+  }
+  NSError *error = nil;
+  if ([self.camera.device lockForConfiguration:&error]) {
+    self.camera.device.torchMode = AVCaptureTorchModeOff;
+    [self.camera.device unlockForConfiguration];
+    resolve(@(YES));
+  } else {
+    reject(@"FAILED", error.localizedDescription, error);
+  }
+}
+// --- Torch end ---
+
 @end
 

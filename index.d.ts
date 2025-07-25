@@ -1,6 +1,6 @@
 declare module "react-native-twilio-video-webrtc" {
-  import { ViewProps } from "react-native";
   import React from "react";
+  import { ViewProps } from "react-native";
 
   export interface TrackIdentifier {
     participantSid: string;
@@ -16,7 +16,7 @@ declare module "react-native-twilio-video-webrtc" {
     scaleType?: scaleType;
     /**
      * Whether to apply Z ordering to this view.  Setting this to true will cause
-     * this view to appear above other Twilio Video views. 
+     * this view to appear above other Twilio Video views.
      */
      applyZOrder?: boolean | undefined;
   }
@@ -27,7 +27,7 @@ declare module "react-native-twilio-video-webrtc" {
     scaleType?: scaleType;
     /**
      * Whether to apply Z ordering to this view.  Setting this to true will cause
-     * this view to appear above other Twilio Video views. 
+     * this view to appear above other Twilio Video views.
      */
     applyZOrder?: boolean | undefined;
   }
@@ -85,13 +85,13 @@ declare module "react-native-twilio-video-webrtc" {
   export type RoomErrorEventCb = (t: RoomErrorEventArgs) => void;
 
   export type ParticipantEventCb = (p: ParticipantEventArgs) => void;
-  
+
   export type NetworkLevelChangeEventCb = (p: NetworkLevelChangeEventArgs) => void;
 
   export type DominantSpeakerChangedEventArgs = RoomEventCommonArgs & {
     participant: Participant;
   }
-  
+
   export type DominantSpeakerChangedCb = (d: DominantSpeakerChangedEventArgs) => void;
 
   export type LocalParticipantSupportedCodecsCbEventArgs = {
@@ -126,7 +126,7 @@ declare module "react-native-twilio-video-webrtc" {
     onStatsReceived?: (data: any) => void;
     onDataTrackMessageReceived?: DataTrackEventCb;
     // iOS only
-    autoInitializeCamera?: boolean;    
+    autoInitializeCamera?: boolean;
     ref?: React.Ref<any>;
   };
 
@@ -186,5 +186,23 @@ declare module "react-native-twilio-video-webrtc" {
     TwilioVideoParticipantViewProps
   > {}
 
-  export { TwilioVideoLocalView, TwilioVideoParticipantView, TwilioVideo };
+  export { TwilioVideo, TwilioVideoLocalView, TwilioVideoParticipantView };
+
+  /**
+   * Android & iOS: Enable the device flashlight (torch) during an active camera session.
+   * Returns a Promise that resolves `true` on success.
+   */
+  export function enableTorch(): Promise<boolean>;
+
+  /**
+   * Disable the flashlight (torch).
+   * Returns a Promise that resolves `true` on success.
+   */
+  export function disableTorch(): Promise<boolean>;
+
+  /**
+   * Get current torch state.
+   * Resolves `true` if the torch is currently on.
+   */
+  export function getTorchStatus(): Promise<boolean>;
 }

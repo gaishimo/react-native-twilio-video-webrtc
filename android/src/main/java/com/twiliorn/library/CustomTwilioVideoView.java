@@ -202,6 +202,11 @@ public class CustomTwilioVideoView extends View implements LifecycleEventListene
     private static LocalVideoTrack localVideoTrack;
 
     private static CameraCapturer cameraCapturer;
+
+    public static CameraCapturer getCameraCapturer() {
+        return cameraCapturer;
+    }
+
     private LocalAudioTrack localAudioTrack;
     private AudioManager audioManager;
     private int previousAudioMode;

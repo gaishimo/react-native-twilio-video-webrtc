@@ -21,7 +21,9 @@ import java.util.List;
 public class TwilioPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        return Arrays.<NativeModule>asList(
+                new TwilioTorchModule(reactContext)
+        );
     }
 
     // Deprecated by RN 0.47

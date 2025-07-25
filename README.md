@@ -1,8 +1,8 @@
 # Twilio Video (WebRTC) for React Native
 
-> [!NOTE]  
-> **October 21 2024:** _Good news!_ Twilio just announced **Twilio Video service is here to stay**, they are reversing the deprecation decision. [Here's their official announcement.](https://www.twilio.com/en-us/blog/twilio-video-update-2024). 
-> 
+> [!NOTE]
+> **October 21 2024:** _Good news!_ Twilio just announced **Twilio Video service is here to stay**, they are reversing the deprecation decision. [Here's their official announcement.](https://www.twilio.com/en-us/blog/twilio-video-update-2024).
+>
 > If you or your company need React Native support, contact me [gaston@gastonmorixe.com](mailto:gaston@gastonmorixe.com). We have premium react native features  like PiP support, Live Activities, Typescript, and many more. - Gaston
 
 
@@ -20,6 +20,29 @@ Platforms:
 - Android
 
 People using a version < 1.0.1 please move to 1.0.1 since the project changed a lot internally to support the stable TwilioVideo version.
+
+## About Fork
+
+This fork adds a small **Flash-/Torch control feature** that is not available in the original package.
+
+* **`enableTorch()` / `disableTorch()` Native methods** — exposed via `NativeModules.TwilioTorch` and re-exported from `index.js`.
+* **iOS**: toggles `AVCaptureDevice.torchMode` on the active `TVICameraSource` device.
+* **Android**: accesses the current `CameraCapturer` at runtime and sets `Camera.Parameters.FLASH_MODE_TORCH / OFF` (Camera1 API) through the new `TwilioTorchModule`.
+* No breaking changes: existing video features remain untouched; torch control is optional.
+
+Additional fixes included in this fork:
+
+* Android: _CustomTwilioVideoView_ refactored (commit `b66d2f7`) — replaces deprecated `this.refs` with callback ref and cleans import order, removing React 18 warnings.
+* iOS: _RCTTWVideoModule connect()_ signature corrected (commit `4be9953`) — BOOL parameters are now passed by value instead of pointers, matching native conventions and avoiding undefined behaviour.
+
+> Usage
+>
+> ```js
+> import { enableTorch, disableTorch } from 'react-native-twilio-video-webrtc';
+>
+> await enableTorch(); // turn light on
+> await disableTorch(); // turn light off
+> ```
 
 ## Installation
 
